@@ -299,6 +299,7 @@ def fromgui(x1, x2, numb):
         print("\tПроверка корректности...")     #
         if not testDurak(numb):               #
             print("\tЧисло не корректно.")      #
+            return 1, "Число не корректно."
             break                            #
         print("\tЧисло корректно.\n")           #
 
@@ -307,6 +308,7 @@ def fromgui(x1, x2, numb):
         iscorrect = lastproverka(x1, numb) # Вызов ф-ии возвращает bool
         if not iscorrect:
             print("\tВведенное число не яв-ся числом выбранной СС")
+            return 1, "Введенное число не яв-ся числом выбранной СС"
             break
         print("\tЧисло соответствует выбранной СС")
 
@@ -315,7 +317,8 @@ def fromgui(x1, x2, numb):
         print("x1 = ", x1, ", x2 = ", x2, ", numb = ", numb)
         rez = convert_base(str(numb), int(x2), int(x1), True)
         print("Результат подсчетов: ", rez)
-        return rez
+        err = 0
+        return  err, rez
 
         break
 

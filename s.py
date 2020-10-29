@@ -16,15 +16,19 @@ class ExampleApp(QtWidgets.QMainWindow, diz.Ui_MainWindow):
 
 
     def run(self):
+        self.label_4.setText("")
         x1 = int(self.comboBox_1.currentText())
         x2 = int(self.comboBox_2.currentText())
         numb = self.lineEdit.text()
+
         if numb != "":
-            rez = fromgui(x1, x2, numb)
-            if rez != '':   
-                self.lineEdit_2.setText(rez) 
-            else:
-                print("Ooops2") 
+            err, rez = fromgui(x1, x2, numb)
+
+            if err == 0:
+                self.lineEdit_2.setText(rez)  
+            else: 
+                self.label_4.setText("Возвращена ошибка..." + rez)
+                print("Возвращена ошибка...")
         else:
             print("Ooops")
 
