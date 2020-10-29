@@ -1,6 +1,7 @@
 import unittest
 import sys  # sys нужен для передачи argv в QApplication
-from PyQt5 import QtWidgets
+from PyQt5 import QtWidgets,  QtCore, QtGui
+# from gui import Ui_MainWindow # Здесь подключается UI формы
 import diz
 
 '''
@@ -58,6 +59,14 @@ class ExampleApp(QtWidgets.QMainWindow, diz.Ui_MainWindow):
         # и т.д. в файле diz.py
         super().__init__()
         self.setupUi(self)  # Это нужно для инициализации нашего дизайна
+        self.pushButton.clicked.connect(self.run)
+
+
+    def run():
+        ui.comboBox_1.currentText()
+        ui.comboBox_2.currentText()
+
+
 
 
 '''
@@ -284,6 +293,31 @@ def glavnaya():
 
 
 
+
+def fromgui(x1, x2, numb):
+    while True:
+        print("\tПроверка корректности...")     #
+        if not testDurak(numb):               #
+            print("\tЧисло не корректно.")      #
+            break                            #
+        print("\tЧисло корректно.\n")           #
+
+        # Вторая проверка - на соответствие выбранной СС
+        print("\tПроверка СС введенного числа...")
+        iscorrect = lastproverka(x1, numb) # Вызов ф-ии возвращает bool
+        if not iscorrect:
+            print("\tВведенное число не яв-ся числом выбранной СС")
+            break
+        print("\tЧисло соответствует выбранной СС")
+
+        # Мы имеем все данные, все данные проверены, теперь вызываем 
+        # ф-ию с основной логикой
+        print("x1 = ", x1, ", x2 = ", x2, ", numb = ", numb)
+        print("Результат подсчетов: ", convert_base(str(numb), int(x2), int(x1), True))
+
+        break
+
+
 '''
 Сори за дебильное название - у меня поэтический кризис)
 Роль этой функции - проверить, находится ли переданное число n
@@ -343,9 +377,17 @@ def testDurak(number):
 
 
 
+
+
+
+
+
 def main():
+    # print("hi")
     app = QtWidgets.QApplication(sys.argv)  # Новый экземпляр QApplication
     window = ExampleApp()  # Создаём объект класса ExampleApp
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
     window.show()  # Показываем окно
     app.exec_()  # и запускаем приложение
 
@@ -356,8 +398,8 @@ def main():
 
 if __name__ == '__main__':
     # unittest.main()
-    # glavnaya()
-    main()
+    glavnaya()
+    # main()
 
 '''
 И так, это место, где начинает работать эта программа.
