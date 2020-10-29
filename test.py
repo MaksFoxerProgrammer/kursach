@@ -1,4 +1,7 @@
 import unittest
+import sys  # sys нужен для передачи argv в QApplication
+from PyQt5 import QtWidgets
+import diz
 
 '''
 Класс тестов (unnittest)
@@ -46,6 +49,15 @@ class TestSS(unittest.TestCase):
 
     def test_25DA(self):
         self.assertEqual(convert_base('25DA', 10, 16), '9690')
+
+
+
+class ExampleApp(QtWidgets.QMainWindow, diz.Ui_MainWindow):
+    def __init__(self):
+        # Это здесь нужно для доступа к переменным, методам
+        # и т.д. в файле diz.py
+        super().__init__()
+        self.setupUi(self)  # Это нужно для инициализации нашего дизайна
 
 
 '''
@@ -331,6 +343,12 @@ def testDurak(number):
 
 
 
+def main():
+    app = QtWidgets.QApplication(sys.argv)  # Новый экземпляр QApplication
+    window = ExampleApp()  # Создаём объект класса ExampleApp
+    window.show()  # Показываем окно
+    app.exec_()  # и запускаем приложение
+
 
 #############################
 # Эта фигня запускает тесты #
@@ -338,7 +356,8 @@ def testDurak(number):
 
 if __name__ == '__main__':
     # unittest.main()
-    glavnaya()
+    # glavnaya()
+    main()
 
 '''
 И так, это место, где начинает работать эта программа.
