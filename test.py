@@ -313,7 +313,9 @@ def fromgui(x1, x2, numb):
         # Мы имеем все данные, все данные проверены, теперь вызываем 
         # ф-ию с основной логикой
         print("x1 = ", x1, ", x2 = ", x2, ", numb = ", numb)
-        print("Результат подсчетов: ", convert_base(str(numb), int(x2), int(x1), True))
+        rez = convert_base(str(numb), int(x2), int(x1), True)
+        print("Результат подсчетов: ", rez)
+        return rez
 
         break
 

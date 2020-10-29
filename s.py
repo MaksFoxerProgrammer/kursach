@@ -22,7 +22,9 @@ class ExampleApp(QtWidgets.QMainWindow, diz.Ui_MainWindow):
         if numb != "":
             rez = fromgui(x1, x2, numb)
             if rez != '':   
-                pass  
+                self.lineEdit_2.setText(rez) 
+            else:
+                print("Ooops2") 
         else:
             print("Ooops")
 
