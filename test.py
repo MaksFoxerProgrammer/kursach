@@ -294,7 +294,7 @@ def glavnaya():
 
 
 
-def fromgui(x1, x2, numb):
+def fromgui(x1, x2, numb, debug):
     while True:
         print("\tПроверка корректности...")     #
         if not testDurak(numb):               #
@@ -315,7 +315,7 @@ def fromgui(x1, x2, numb):
         # Мы имеем все данные, все данные проверены, теперь вызываем 
         # ф-ию с основной логикой
         print("x1 = ", x1, ", x2 = ", x2, ", numb = ", numb)
-        rez = convert_base(str(numb), int(x2), int(x1), True)
+        rez = convert_base(str(numb), int(x2), int(x1), debug)
         print("Результат подсчетов: ", rez)
         err = 0
         return  err, rez

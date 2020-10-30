@@ -2,36 +2,51 @@ import unittest
 import sys  # sys нужен для передачи argv в QApplication
 from PyQt5 import QtWidgets,  QtCore, QtGui
 # from gui import Ui_MainWindow # Здесь подключается UI формы
-import diz
-from test import *
+import diz # Дизайн
+from PyQt5.QtCore import Qt # Теперь работает переключалка дебагера
+from test import * # Из основного модуля
 
 
 class ExampleApp(QtWidgets.QMainWindow, diz.Ui_MainWindow):
+    debug = False
+
+    
     def __init__(self):
         # Это здесь нужно для доступа к переменным, методам
         # и т.д. в файле diz.py
         super().__init__()
         self.setupUi(self)  # Это нужно для инициализации нашего дизайна
         self.pushButton.clicked.connect(self.run)
+        self.checkBox.stateChanged.connect(self.changeCB)
 
 
     def run(self):
         self.label_4.setText("")
+        self.lineEdit_2.setText("")  
+                
         x1 = int(self.comboBox_1.currentText())
         x2 = int(self.comboBox_2.currentText())
         numb = self.lineEdit.text()
 
         if numb != "":
-            err, rez = fromgui(x1, x2, numb)
+            err, rez = fromgui(x1, x2, numb, self.debug)
 
             if err == 0:
+                self.label_4.setText("Успех!")
                 self.lineEdit_2.setText(rez)  
             else: 
-                self.label_4.setText("Возвращена ошибка..." + rez)
+                self.label_4.setText("Возвращена ошибка: " + rez)
                 print("Возвращена ошибка...")
         else:
+            self.label_4.setText("Кажется, вы забыли ввести число...")
             print("Ooops")
 
+
+    def changeCB(self, state):
+        if state == Qt.Checked:
+            self.debug = True
+        else:
+            self.debug = False
 
 
 
