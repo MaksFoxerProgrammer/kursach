@@ -4,6 +4,8 @@ from PyQt5 import QtWidgets,  QtCore, QtGui
 # from gui import Ui_MainWindow # Здесь подключается UI формы
 import diz
 
+out = ""
+
 '''
 Класс тестов (unnittest)
 Создается класс произвольного имени, но
@@ -109,6 +111,8 @@ debug - булевая переменная. В ней я сосредоточи
 '''
 def gorner( num, base, debug ):
 
+    global out
+
     if debug:
         print('Поступило: ', num)
         print('СС: ', base)
@@ -119,9 +123,14 @@ def gorner( num, base, debug ):
     b = ifabc2dec(num[ind]) #int(num[ind])
 
     if debug:
+        out +=  'Индекс = '+ str(ind) + "\n"
+        out +=  'Текущее значение: '+ num[ind] + "\n"
+        out +=  'Промежуточный результат: '+ str(b) + "\n"
+        out +=  '=============\n'
+
         print('Индекс = ', ind)
         print('Текущее значение: ', num[ind])
-        print('Промежуточный результат: ', b)
+        print('Промежуточный результат: ', )
         print('=============')
 
     while (-ind) < len(num):
@@ -129,15 +138,20 @@ def gorner( num, base, debug ):
         b += int(ifabc2dec(num[ind])) * base**(-ind-1)
 
         if debug:
-            # print('Индекс = ', ind)
+            print('Индекс = ', ind)
+            out +=  'Текущее значение: '+ (num[ind]) + "\n"
+            out +=  'Текущей многочлен: '+ str(ifabc2dec(num[ind])) + " * " + str(base) + '^' + str(-ind-1) + ' = ' + str(ifabc2dec(num[ind]) * base**(-ind-1)) + "\n"
+            out +=  'Промежуточный результат: '+ str(b) + "\n"
+            out +=  '-------------\n'
+
             print('Текущее значение: ', (num[ind]))
             print('Текущей многочлен: ', int(ifabc2dec(num[ind])), ' * ' , base, '^', (-ind-1), ' = ', int(ifabc2dec(num[ind])) * base**(-ind-1))
-            print('Промежуточный результат: ', b)
+            print('Промежуточный результат: ', str(b))
             print('-------------')
     
     if debug:
         print('Итог (Десятичный): ', b)
-    return b
+    return b#, out
 
 
 '''
@@ -162,7 +176,7 @@ def convert_base(num, to_base=10, from_base=10, debug=False):
         n = int(num)
     # now convert decimal to 'to_base' base
     alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    if n < to_base:
+    if int(n) < int(to_base):
         return alphabet[n]
     else:
         return convert_base(n // to_base, to_base) + alphabet[n % to_base]
@@ -295,30 +309,42 @@ def glavnaya():
 
 
 def fromgui(x1, x2, numb, debug):
+
+    global out
+    out = "" # Обнуляем буфер вывода в GUI
+
     while True:
         print("\tПроверка корректности...")     #
+        out += "\tПроверка корректности...\n"
         if not testDurak(numb):               #
             print("\tЧисло не корректно.")      #
-            return 1, "Число не корректно."
+            out += "\tЧисло не корректно.\n"
+            return 1, "Число не корректно.", out
             break                            #
         print("\tЧисло корректно.\n")           #
 
         # Вторая проверка - на соответствие выбранной СС
         print("\tПроверка СС введенного числа...")
+        out += "\tПроверка СС введенного числа...\n"
         iscorrect = lastproverka(x1, numb) # Вызов ф-ии возвращает bool
         if not iscorrect:
             print("\tВведенное число не яв-ся числом выбранной СС")
-            return 1, "Введенное число не яв-ся числом выбранной СС"
+            out += "\tВведенное число не яв-ся числом выбранной СС\n"
+            return 1, "Введенное число не яв-ся числом выбранной СС", out
             break
         print("\tЧисло соответствует выбранной СС")
+        out += "\tЧисло соответствует выбранной СС\n"
 
         # Мы имеем все данные, все данные проверены, теперь вызываем 
         # ф-ию с основной логикой
         print("x1 = ", x1, ", x2 = ", x2, ", numb = ", numb)
+        out += "x1 = " + str(x1) + ", x2 = " + str(x2) + ", numb = " + str(numb) + "\n"
+
         rez = convert_base(str(numb), int(x2), int(x1), debug)
         print("Результат подсчетов: ", rez)
+        out += "Результат подсчетов: " + str(rez)
         err = 0
-        return  err, rez
+        return  err, rez, out
 
         break
 
@@ -340,6 +366,7 @@ alf = alf[:ss]
 Возвращаем соответственно True или False
 '''
 def lastproverka(ss, n):
+    global out
     alf = "0123456789ABCDEF"
     alf = alf[:ss]
     for bukva in n:
@@ -348,8 +375,10 @@ def lastproverka(ss, n):
             if buk == bukva:
                 proverka = True
                 print("\t", bukva, "......YES")
+                out += "\t" + str(bukva) + "......YES\n"
         if not proverka:
             print("\t", bukva, "......NO")
+            out += "\t" + str(bukva) + "......NO\n"
             return False
     return True
         
@@ -365,13 +394,18 @@ def lastproverka(ss, n):
 '''
 def testDurak(number):
     check = True
+    global out
 
     for t in number:
         if t == '0' or t == '1' or t == '2' or t == '3' or t == '4' or t == '5' or t == '6' or t == '7' or t == '8' or t == '9' or t == 'A' or t == 'B' or t == 'C' or t == 'D' or t == 'E' or t == 'F':
             print("\t", t, "......OK")
+            out += "\t" + str(t) + "......OK\n"
         else:
             print("\t", t, "......NO")
             print("Ooops, ты ввел недопустимый симвл)")
+
+            out += "\t" + str(t) + "......NO\n"
+            out += "Ooops, ты ввел недопустимый симвл)\n"
             check = False
             break
 

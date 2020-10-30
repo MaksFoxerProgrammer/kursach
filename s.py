@@ -1,9 +1,8 @@
-import unittest
+# import unittest
 import sys  # sys нужен для передачи argv в QApplication
 from PyQt5 import QtWidgets,  QtCore, QtGui
-# from gui import Ui_MainWindow # Здесь подключается UI формы
-import diz # Дизайн
 from PyQt5.QtCore import Qt # Теперь работает переключалка дебагера
+import diz # Дизайн
 from test import * # Из основного модуля
 
 
@@ -23,17 +22,20 @@ class ExampleApp(QtWidgets.QMainWindow, diz.Ui_MainWindow):
     def run(self):
         self.label_4.setText("")
         self.lineEdit_2.setText("")  
+        self.textEdit.setText("")
                 
         x1 = int(self.comboBox_1.currentText())
         x2 = int(self.comboBox_2.currentText())
         numb = self.lineEdit.text()
 
         if numb != "":
-            err, rez = fromgui(x1, x2, numb, self.debug)
+            err, rez, out = fromgui(x1, x2, numb, self.debug)
 
             if err == 0:
                 self.label_4.setText("Успех!")
-                self.lineEdit_2.setText(rez)  
+                self.lineEdit_2.setText(rez)
+                if self.debug == True:
+                    self.textEdit.setText(out)
             else: 
                 self.label_4.setText("Возвращена ошибка: " + rez)
                 print("Возвращена ошибка...")
